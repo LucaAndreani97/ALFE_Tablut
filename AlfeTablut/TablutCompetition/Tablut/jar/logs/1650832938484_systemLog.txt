@@ -1,0 +1,6 @@
+apr 24, 2022 10:42:18 PM it.unibo.ai.didattica.competition.tablut.server.Server run
+FINE: Accensione server
+apr 24, 2022 10:42:18 PM it.unibo.ai.didattica.competition.tablut.server.Server run
+FINE: Partita di Tablut
+apr 24, 2022 10:42:18 PM it.unibo.ai.didattica.competition.tablut.server.Server run
+FINE: Waiting for white connection..
