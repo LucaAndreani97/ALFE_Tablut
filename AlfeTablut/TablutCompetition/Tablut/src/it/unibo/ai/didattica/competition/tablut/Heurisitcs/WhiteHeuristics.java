@@ -18,6 +18,7 @@ public class WhiteHeuristics extends Heuristic {
 	final static int WEIGHT_BLACK_EATEN = 3;
 	final static int WEIGHT_BLACK_NEAR_KING = 4;
 	final static int WEIGHT_WHITE_NEAR_KING = 5;
+	
 
     private static double white_alive;
     private static double black_eaten;

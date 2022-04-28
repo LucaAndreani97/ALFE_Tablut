@@ -4,6 +4,7 @@ public class Coordinates {
 	
 	private int row;
 	private int column;
+	
 
 	public Coordinates(int rowVal, int columnVal){
 		row = rowVal;

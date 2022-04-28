@@ -17,6 +17,7 @@ import it.unibo.ai.didattica.competition.tablut.Heurisitcs.WhiteHeuristics;
 import it.unibo.ai.didattica.competition.tablut.domain.State.Turn;
 import it.unibo.ai.didattica.competition.tablut.exceptions.*;
 
+
 /**
  * 
  * Game engine inspired by the Ashton Rules of Tablut

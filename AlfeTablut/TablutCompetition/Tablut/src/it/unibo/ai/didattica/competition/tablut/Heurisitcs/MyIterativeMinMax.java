@@ -6,6 +6,7 @@ import it.unibo.ai.didattica.competition.tablut.domain.*;
 import it.unibo.ai.didattica.competition.tablut.domain.State.Turn;
 
 
+
 public class MyIterativeMinMax extends IterativeDeepeningAlphaBetaSearch<State, Action, State.Turn>{
 	
 	public MyIterativeMinMax(Game<State, Action, Turn> tablutGame, double minValue, double maxValue, int searchTime) {

@@ -323,6 +323,7 @@ public class TablutALFEClient extends TablutClient{
                 }
 
             }
+            
             // if i'm BLACK
             else {
 
