@@ -819,18 +819,25 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 		return true;
 	}
 	public double getUtility(State state, State.Turn player) {
+		
 		if(player==State.Turn.WHITE) {
+			
+			WhiteHeuristics wh = new WhiteHeuristics(state);
+			
 			if( state.getTurn().equals(State.Turn.BLACKWIN))
 				return Double.NEGATIVE_INFINITY;
 			if( state.getTurn().equals(State.Turn.WHITEWIN))
 				return Double.POSITIVE_INFINITY;
-			return WhiteHeuristics.evaluateState(state);
+			return wh.evaluateState(state);
 		}else {
+			
+			BlackHeuristics bh = new BlackHeuristics(state);
+			
 			if( state.getTurn().equals(State.Turn.BLACKWIN))
 				return Double.POSITIVE_INFINITY;
 			if( state.getTurn().equals(State.Turn.WHITEWIN))
 				return Double.NEGATIVE_INFINITY;
-			return BlackHeuristics.evaluateState(state);
+			return bh.evaluateState(state);
 		}
 			
 	}

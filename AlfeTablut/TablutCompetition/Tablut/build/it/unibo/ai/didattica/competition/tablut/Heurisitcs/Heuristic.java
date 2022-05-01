@@ -68,6 +68,7 @@ public class Heuristic {
 		} else
 			return 0;
 	}
+	
 	    
 	protected static int blackWinWithAMove(State state, Coordinates kingCoord) {
 		

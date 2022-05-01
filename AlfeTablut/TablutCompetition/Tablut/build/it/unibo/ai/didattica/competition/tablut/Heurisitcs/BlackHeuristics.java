@@ -3,6 +3,7 @@ package it.unibo.ai.didattica.competition.tablut.Heurisitcs;
 import it.unibo.ai.didattica.competition.tablut.domain.State;
 import it.unibo.ai.didattica.competition.tablut.domain.Coordinates;
 
+
 import it.unibo.ai.didattica.competition.tablut.domain.GameAshtonTablut;
 
 import java.util.HashMap;
