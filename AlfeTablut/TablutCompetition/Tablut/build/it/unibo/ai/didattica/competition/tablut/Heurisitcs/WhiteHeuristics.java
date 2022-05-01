@@ -37,7 +37,7 @@ public class WhiteHeuristics extends Heuristic {
 	    weights.put(WEIGHT_WHITE_NEAR_KING, -30.0);
 	}
 	
-	public static double evaluateState(State state) {
+	public double evaluateState(State state) {
 		
 		double utilityValue = 0.0;
 		Coordinates kingPos = state.getKingPos();

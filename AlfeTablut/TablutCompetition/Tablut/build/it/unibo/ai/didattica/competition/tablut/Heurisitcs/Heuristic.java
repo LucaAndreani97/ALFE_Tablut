@@ -70,21 +70,63 @@ public class Heuristic {
 	}
 	
 	    
-	protected static int blackWinWithAMove(State state, Coordinates kingCoord) {
+protected static int blackWinWithAMove(State state, Coordinates kingCoord) {
 		
-		int count = 0;
-			if (state.checkRight(kingCoord) == State.Pawn.EMPTY)
+		int count=0;
+		
+		if ( kingCoord.getRow()==4 && kingCoord.getColumn() == 4) {
+			//re nel trono, servono 4 pedine nere attorno
+				if(state.getPawn(kingCoord.getRow()+1, kingCoord.getColumn()).equals(State.Pawn.BLACK))
+					count++;
+				if(state.getPawn(kingCoord.getRow()-1, kingCoord.getColumn()).equals(State.Pawn.BLACK))
+					count++;
+				if(state.getPawn(kingCoord.getRow(), kingCoord.getColumn()+1).equals(State.Pawn.BLACK))
+					count++;
+				if(state.getPawn(kingCoord.getRow(), kingCoord.getColumn()-1).equals(State.Pawn.BLACK))
+					count++;
+				if (count == 4) {
+					return 1;
+				}
+		}else if (kingNearThrone(kingCoord)) {
+			//se Ã¨ affianco al trono, ne servono 3
+			if(state.getPawn(kingCoord.getRow()+1, kingCoord.getColumn()).equals(State.Pawn.BLACK))
 				count++;
-			if (state.checkLeft(kingCoord) == State.Pawn.EMPTY)
+			if(state.getPawn(kingCoord.getRow()-1, kingCoord.getColumn()).equals(State.Pawn.BLACK))
 				count++;
-			if (state.checkUp(kingCoord) == State.Pawn.EMPTY)
+			if(state.getPawn(kingCoord.getRow(), kingCoord.getColumn()+1).equals(State.Pawn.BLACK))
 				count++;
-			if (state.checkBottom(kingCoord) == State.Pawn.EMPTY)
+			if(state.getPawn(kingCoord.getRow(), kingCoord.getColumn()-1).equals(State.Pawn.BLACK))
 				count++;
-			if (count > 1)
+			if (count == 3) {
 				return 1;
-			else
-				return 0;
+			}
+			return 1;
+			
+		}else {
+			//in tutti gli altri casi 2
+			if(state.getPawn(kingCoord.getRow()+1, kingCoord.getColumn()).equals(State.Pawn.BLACK))
+				count++;
+			if(state.getPawn(kingCoord.getRow()-1, kingCoord.getColumn()).equals(State.Pawn.BLACK))
+				count++;
+			if(state.getPawn(kingCoord.getRow(), kingCoord.getColumn()+1).equals(State.Pawn.BLACK))
+				count++;
+			if(state.getPawn(kingCoord.getRow(), kingCoord.getColumn()-1).equals(State.Pawn.BLACK))
+				count++;
+			if (count == 2) {
+				return 1;
+			}
+			return 1;
+		}
+			return 0;
+	}
+		
+	private static boolean kingNearThrone(Coordinates kingCoord) {
+		int row=kingCoord.getRow();
+		int col=kingCoord.getColumn();
+		if ( (row == 4 && col == 5) || (row == 4 && col == 3) || 
+				(row ==3 && col ==4) || (row == 5 && col == 4) )
+			return true;
+		return false;
 	}
 		
 	protected static double getNumberOnRhombus(State state) {
