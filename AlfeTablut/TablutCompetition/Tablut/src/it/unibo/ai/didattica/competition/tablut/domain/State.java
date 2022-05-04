@@ -241,7 +241,7 @@ public abstract class State {
 	 * Metodo che restitusce la posizione del re
 	*/
 	
-	public Coordinates getKingPos(){
+	public Coordinates getKingCords(){
 		Coordinates result = new Coordinates(-1,-1);
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[i].length; j++) {
