@@ -1,6 +1,6 @@
 # ALFE_TABLUT
 
-## Run the Server without Eclipse
+## Run the Local Server
 
 The easiest way is to utilize the ANT configuration script from console.
 Go into the project folder (the folder with the `build.xml` file):
