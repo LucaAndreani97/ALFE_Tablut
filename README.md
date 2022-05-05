@@ -1,4 +1,31 @@
-# ALFE_Tablut
+# ALFE_TABLUT
+
+## Run the Server without Eclipse
+
+The easiest way is to utilize the ANT configuration script from console.
+Go into the project folder (the folder with the `build.xml` file):
+```
+cd TablutCompetition/Tablut
+```
+
+Compile the project:
+
+```
+ant clean
+ant compile
+```
+
+The compiled project is in  the `build` folder.
+Run the server with:
+
+```
+ant server
+```
+
+Check the behaviour using the random players in two different console windows.
+
+## Run players
+
 To start the player, cd into AlfeTablut/TablutCompetition/Tablut/jar and run
 
 ```
