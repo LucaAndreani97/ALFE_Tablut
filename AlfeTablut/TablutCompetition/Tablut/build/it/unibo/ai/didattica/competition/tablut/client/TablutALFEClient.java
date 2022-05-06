@@ -3,7 +3,9 @@ package it.unibo.ai.didattica.competition.tablut.client;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
+import it.unibo.ai.didattica.competition.tablut.Heurisitcs.BlackOpening;
 import it.unibo.ai.didattica.competition.tablut.Heurisitcs.MyIterativeMinMax;
+import it.unibo.ai.didattica.competition.tablut.Heurisitcs.OpeningInterface;
 import it.unibo.ai.didattica.competition.tablut.domain.*;
 
 
@@ -55,6 +57,8 @@ public class TablutALFEClient extends TablutClient{
 	
 	@Override
 	public void run() {
+		
+		int countTurn = 0;
 		// TODO Auto-generated method stub
 		 // send name of your group to the server saved in variable "name"
         try {
@@ -134,16 +138,33 @@ public class TablutALFEClient extends TablutClient{
             
             // if i'm BLACK
             else {
+            	
 
                 // if is my turn (BLACK)
                 if (this.getCurrentState().getTurn().equals(StateTablut.Turn.BLACK)) {
+                	
+                	Action a = null;
+                	
+                	if (countTurn == 0) {
+                		
+                		OpeningInterface op = new BlackOpening();
+                		
+                		a = op.openingMove(this.getCurrentState());
+                		
+                		System.out.println("\nAction selected: " + a.toString());
+                		countTurn = 1;
+                		
+                	} else {
 
                     System.out.println("\nSearching a suitable move... ");
 
                     // search the best move in search tree
-                    Action a = findBestMove(tablutGame, state);
-
+                    a = findBestMove(tablutGame, state);
                     System.out.println("\nAction selected: " + a.toString());
+                	
+                	}
+                	
+
                     try {
                         this.write(a);
                     } catch (ClassNotFoundException | IOException e) {
@@ -176,8 +197,7 @@ public class TablutALFEClient extends TablutClient{
                 }
             }
         }
-        
-	}
+    }
 
 
 	private Action findBestMove(GameAshtonTablut tablutGame, State state) {

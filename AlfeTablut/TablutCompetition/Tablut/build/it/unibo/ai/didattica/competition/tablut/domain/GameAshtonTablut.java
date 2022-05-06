@@ -294,7 +294,7 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 		int trovati = 0;
 		for (State s : drawConditions) {
 
-			System.out.println(s.toString());
+//			System.out.println(s.toString());
 
 			if (s.equals(state)) {
 				// DEBUG: //
@@ -809,6 +809,7 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 
 		return possibleMoves;
 	}
+	
 	private boolean moveIsValid(State state, Action action) {
 		try {
 			State curState = state.clone();
@@ -818,6 +819,7 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 		}
 		return true;
 	}
+	
 	public double getUtility(State state, State.Turn player) {
 		
 		if(player==State.Turn.WHITE) {
@@ -828,7 +830,7 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 				return Double.NEGATIVE_INFINITY;
 			if( state.getTurn().equals(State.Turn.WHITEWIN))
 				return Double.POSITIVE_INFINITY;
-			return wh.evaluateState(state);
+			return wh.evaluate(state);
 		}else {
 			
 			BlackHeuristics bh = new BlackHeuristics(state);
@@ -837,7 +839,7 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 				return Double.POSITIVE_INFINITY;
 			if( state.getTurn().equals(State.Turn.WHITEWIN))
 				return Double.NEGATIVE_INFINITY;
-			return bh.evaluateState(state);
+			return bh.evaluate(state);
 		}
 			
 	}

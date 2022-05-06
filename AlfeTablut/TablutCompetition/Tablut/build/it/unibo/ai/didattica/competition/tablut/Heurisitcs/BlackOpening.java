@@ -6,13 +6,9 @@ import it.unibo.ai.didattica.competition.tablut.domain.Action;
 import it.unibo.ai.didattica.competition.tablut.domain.State;
 import it.unibo.ai.didattica.competition.tablut.domain.State.Turn;
 
-/**
- * @author L.Piazza
- *
- */
-public class BlackOpening{
+public class BlackOpening implements OpeningInterface{
 
-
+	@Override
 	public Action openingMove(State currentState) {
 		/*Se in apertura ho possibilita' di mangiare ai bordi lo faccio*/
 		Action a=controllaMangiata(currentState);
