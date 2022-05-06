@@ -294,7 +294,7 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 		int trovati = 0;
 		for (State s : drawConditions) {
 
-			System.out.println(s.toString());
+//			System.out.println(s.toString());
 
 			if (s.equals(state)) {
 				// DEBUG: //
@@ -759,47 +759,7 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 		this.loggGame.fine("Stato:\n"+state.toString());
 	}
 	
-	@Override
-	public State.Turn getPlayer(State state) {
-		return state.getTurn();
-	}
-
-	@Override
-	public State.Turn[] getPlayers() {
-		return State.Turn.values();
-	}
-
-	@Override
-	public State getInitialState() {
-		return new StateTablut();
-	}
-
-	
-	/*used in getPossibleMovesForColor*/
-	private boolean moveIsValid(State state, Action action) {
-		try {
-			State curState = state.clone();
-			State newState = this.checkMove(curState, action);
-			if(curState.equals(newState)) {
-				return false;
-			}else {
-				return true;
-			}
-		} catch (Exception e) {
-			//System.out.print(e.getMessage());
-		}
-		return false;
-	}
-	
-	/*used in getPossibleMovesForColor*/
-	private boolean positionIsValid(State state, int row, int col) {
-		if (row < 0 || row >= state.getBoard().length) return false;
-		if (col < 0 || col >= state.getBoard().length) return false;
-		return true;
-	}
-	
-	/*used in getAction*/
-	private List<Action> getPossibleMovesForColor(State state, State.Pawn color) throws IOException {
+	private List<Action> getMovesForColor(State state, State.Pawn color) throws IOException {
 		int drow[] = {1, 0, -1, 0};
 		int dcol[] = {0, 1, 0, -1};
 		ArrayList<Action> possibleMoves = new ArrayList<Action>();
@@ -812,7 +772,7 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 			} while (!state.getPawn(row, col).equalsPawn(color.toString()));
 			for (int i = 0; i < drow.length; i++) {
 				boolean lastMoveWasValid = true;
-				for (int distance = 1; lastMoveWasValid && positionIsValid(state, row + drow[i] * distance, col + dcol[i] * distance); distance++) {
+				for (int distance = 1; lastMoveWasValid && posIsValid(state, row + drow[i] * distance, col + dcol[i] * distance); distance++) {
 					// (0, 0) = top left
 					String from = state.getBox(row, col);
 					String to = state.getBox(row + drow[i] * distance, col + dcol[i] * distance);
@@ -828,8 +788,6 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 		return possibleMoves;
 	}
 
-	/*Not used*/
-	@Override
 	public List<Action> getActions(State state) {
 
 		ArrayList<Action> possibleMoves = new ArrayList<Action>();
@@ -837,45 +795,31 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 		try {
 			if (state.getTurn() == State.Turn.WHITE) {
 				// Generate moves for White
-				possibleMoves.addAll(getPossibleMovesForColor(state, State.Pawn.WHITE));
+				possibleMoves.addAll(getMovesForColor(state, State.Pawn.WHITE));
 				// Generate moves for King
-				possibleMoves.addAll(getPossibleMovesForColor(state, State.Pawn.KING));
+				possibleMoves.addAll(getMovesForColor(state, State.Pawn.KING));
 			} else {
 				// Generate moves for Black
-				possibleMoves.addAll(getPossibleMovesForColor(state, State.Pawn.BLACK));
+				possibleMoves.addAll(getMovesForColor(state, State.Pawn.BLACK));
 			}
 		} catch (IOException e) {
-			System.out.println("IOException in getActions");
+			System.out.println("[Neuromancer] IOException in getActions");
 			e.printStackTrace();
 		}
 
 		return possibleMoves;
 	}
 	
-	/*Not used*/
-	@Override
-	public boolean isTerminal(State state) {
-		if (state.getTurn().equals(State.Turn.WHITEWIN) || state.getTurn().equals(State.Turn.BLACKWIN) || state.getTurn().equals(State.Turn.DRAW)) {
-			return true;
+	private boolean moveIsValid(State state, Action action) {
+		try {
+			State curState = state.clone();
+			State newState = this.checkMove(curState, action);
+		} catch (Exception e) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 	
-	/*Not used*/
-	@Override
-	public State getResult(State state, Action action) {
-
-		// move pawn
-		State newstate = this.movePawn(state.clone(), action);
-		// check the state for any capture
-		if (newstate.getTurn().equalsTurn("W")) {
-			newstate = this.checkCaptureBlack(newstate, action);
-		} else if (newstate.getTurn().equalsTurn("B")) {
-			newstate = this.checkCaptureWhite(newstate, action);
-		}
-		return newstate;
-	}
-
 	public double getUtility(State state, State.Turn player) {
 		
 		if(player==State.Turn.WHITE) {
@@ -895,8 +839,46 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 				return Double.POSITIVE_INFINITY;
 			if( state.getTurn().equals(State.Turn.WHITEWIN))
 				return Double.NEGATIVE_INFINITY;
-			return bh.evaluateState(state);
+			return bh.evaluate(state);
 		}
 			
 	}
+
+	private boolean posIsValid(State state, int row, int col) {
+		if (row < 0 || row >= state.getBoard().length) return false;
+		if (col < 0 || col >= state.getBoard().length) return false;
+		return true;
+	}
+	public boolean isTerminal(State state) {
+		if (state.getTurn().equals(State.Turn.WHITEWIN) || state.getTurn().equals(State.Turn.BLACKWIN) || state.getTurn().equals(State.Turn.DRAW)) {
+			return true;
+		}
+		return false;
+	}
+	public State getResult(State state, Action action) {
+
+		// move pawn
+		State newstate = this.movePawn(state.clone(), action);
+		// check the state for any capture
+		if (newstate.getTurn().equalsTurn("W")) {
+			newstate = this.checkCaptureBlack(newstate, action);
+		} else if (newstate.getTurn().equalsTurn("B")) {
+			newstate = this.checkCaptureWhite(newstate, action);
+		}
+		return newstate;
+	}
+
+	public State.Turn getPlayer(State state) {
+		return state.getTurn();
+	}
+
+	public State.Turn[] getPlayers() {
+		return State.Turn.values();
+	}
+
+	public State getInitialState() {
+		return new StateTablut();
+	}
+
+
 }

@@ -36,14 +36,14 @@ public class BlackHeuristics extends Heuristic{
 		 values.put(WEIGHT_VICTORY_WHITE, -6000.0);
 		 values.put(WEIGHT_VICTORY_BLACK, 10000.0);
 	     values.put(WEIGHT_RHOMBUS, 10.0);
-	     values.put(WEIGHT_BLOCK_ESCAPE, 20.0); 
+	     values.put(WEIGHT_BLOCK_ESCAPE, 15.0); 
 	     values.put(WEIGHT_BLACK_ALIVE, 25.0);
-	     values.put(WEIGHT_WHITE_EATEN, 35.0);
-	     values.put(WEIGHT_BLACK_NEAR_KING, 10.0);
+	     values.put(WEIGHT_WHITE_EATEN, 30.0);
+	     values.put(WEIGHT_BLACK_NEAR_KING, 20.0);
 	     //messi in percentuale esclusi victory
 	}
 	
-	public double evaluateState(State state) {
+	public double evaluate(State state) {
 		
 		double heuristic_value = 0.0;
 		Coordinates kingCoords = state.getKingCords();
@@ -54,20 +54,20 @@ public class BlackHeuristics extends Heuristic{
 	    pawns_on_rhombus = (double) getNumberOnRhombus(state) / 8 * 100;
 	    block_escape= getNumberOnBlockedEscape(state) / 12 * 100;
 	    
-	    //ha senso così?
-	    black_near_king= getBlackNearKing(state,kingCoords) / 16 * 100; //da 0 a ??
+	    
+	    black_near_king= getBlackNearKing(state,kingCoords)/4*100; //da 0 a ??
 	    
 	    victory_white = isWhiteWinWithAMove(state,kingCoords); //0,1
 	    victory_black = isBlackWinWithAMove(state,kingCoords); //0,1
 	    
-	    System.out.println("Black pawns in Rhombus: " + pawns_on_rhombus);
-	    System.out.println("White pawns eaten: " + white_eaten);
-	    System.out.println("Black pawns alive: " + black_alive);
-	    System.out.println("Black near king: " + black_near_king);
-	    System.out.println("Black pawns in Block escape: " + block_escape);
-	    System.out.println("White win in a move: [1:yes,0:no]: " + victory_white);
-	    System.out.println("Black win in a move: [1:yes,0:no]: " + victory_black);
-	       
+//	    System.out.println("Black pawns in Rhombus: " + pawns_on_rhombus);
+//	    System.out.println("White pawns eaten: " + white_eaten);
+//	    System.out.println("Black pawns alive: " + black_alive);
+//	    System.out.println("Black near king: " + black_near_king);
+//	    System.out.println("Black pawns in Block escape: " + block_escape);
+//	    System.out.println("White win in a move: [1:yes,0:no]: " + victory_white);
+//	    System.out.println("Black win in a move: [1:yes,0:no]: " + victory_black);
+//	       
 	    heuristic_value = values.get(0)*victory_white + 
 	    			   values.get(1)*victory_black+
 	    		       values.get(2)*block_escape+
